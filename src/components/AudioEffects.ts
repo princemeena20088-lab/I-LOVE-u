@@ -123,9 +123,13 @@ class SongManager {
 
   constructor() {
     if (typeof window !== 'undefined') {
-      this.audio = new Audio('/audio/ishika-love-song.mp3');
+      this.audio = new Audio(`${import.meta.env.BASE_URL}audio/ishika-love-song.mp3`);
       this.audio.loop = true;
       this.audio.preload = 'auto';
+      // Try autoplay on page load. Browsers may block audible autoplay until a user gesture.
+      this.audio.play().catch(() => {
+        // The visible Play Song button remains available if autoplay is blocked.
+      });
 
       this.audio.addEventListener('play', () => {
         this.isPlaying = true;
